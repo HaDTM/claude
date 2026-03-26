@@ -1,34 +1,32 @@
-# Testing Guide
+# Testing Rules (Pytest + Appium)
 
-This document serves as a brief overview of guidelines for testing our eKYC SDK automation framework using Pytest and Appium 2.0.
+## Goals
+- Tests must be **repeatable** on real devices.
+- Prefer **stable functional coverage** over brittle UI coverage.
 
-## Overview
-- Use Pytest for structured testing.
-- Implement Appium 2.0 with real devices for testing iOS and Android apps.
+## Pytest conventions
+- Test names should describe intent: `test_<feature>_<expected_behavior>()`
+- Use explicit assertions with meaningful messages.
+- Keep setup/teardown in fixtures (do not copy/paste driver init).
 
-## Stress/Repeat Tests
-- Design tests to automatically repeat a series of scenarios to identify potential failures under load.
-- Utilize logging to capture test results for analysis.
+## Markers (recommended)
+Add markers to help local runs:
+- `@pytest.mark.smoke` - minimal sanity
+- `@pytest.mark.stability` - repeat/stress style
+- `@pytest.mark.ios`, `@pytest.mark.android` - platform scoping
+- `@pytest.mark.nfc`, `@pytest.mark.face` - feature scoping
 
-## Artifacts Collection
-- Ensure that logs, page-source dumps, and screenshots are captured during test runs to aid in debugging and analysis.
+## Repeat / stress runs
+- Use `pytest-repeat` for stability:
+  - Prefer `--count=5/10` during development
+  - Use higher counts for regression/stability checks
+- If a test is flaky, do not “fix” by adding random sleeps.
+  - Fix waits, state handling, or app transitions.
 
-## Locator Strategy
-- **iOS:** Use predicates wherever possible.
-- **Android:** Prioritize resource-id and content-desc, using XPath as a fallback option.
+## Wait strategy
+- Prefer explicit waits (WebDriverWait) over hard sleeps.
+- Any `sleep()` must have a comment explaining why no deterministic wait is possible.
 
-## CI/CD Assumption
-- This framework does not assume continuous integration or deployment workflows.
-
-## Adding Test Scenarios
-- Create a new test file in the `tests` directory.
-- Follow the existing structure and naming conventions.
-
-## Investigating Flaky Tests
-- Focus on tests that fail intermittently:
-  - Inspect logs and artifacts.
-  - Check device background processes (like camera, rotation).
-  - Evaluate how navigation and state persistence work during resumes.
-
-## Conclusion
-- This guide provides the foundation for effective testing within the eKYC SDK framework.
+## Timeouts
+- Default timeouts should live in config (`utils/platform_config.py`).
+- Keep timeouts reasonable, but allow longer waits for camera/NFC flows.
