@@ -30,3 +30,8 @@
 ## Localization note
 If the app is multi-language, predicate-by-visible-text is fragile.
 Prefer accessibility ids or semantic ids where possible.
+
+## eKYC SDK Examples
+- btn_start_face: predicate string with "showEidView"
+- view_result: short predicate on visible text
+- Avoid deep XPath chains for SDK UI elements
