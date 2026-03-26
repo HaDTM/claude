@@ -17,3 +17,10 @@ This repository contains a **Pytest + Appium 2** automation framework for **eKYC
 - Artifacts: `reports/`, `screenshots/`, `logs/`
 
 If you add or modify tests, follow the playbook in `.claude/commands/add-test.md`.
+
+## Rules & Standards
+See `.claude/rules/` for detailed guidelines on:
+- Project structure (project-structure.md)
+- Testing conventions (testing.md)
+- Locator priorities (locators-ios.md, locators-android.md)
+- Debugging artifacts (debugging.md)
