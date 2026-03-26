@@ -30,3 +30,8 @@ Add markers to help local runs:
 ## Timeouts
 - Default timeouts should live in config (`utils/platform_config.py`).
 - Keep timeouts reasonable, but allow longer waits for camera/NFC flows.
+
+## eKYC SDK Specific
+- Face capture should have longer timeout (30-60s camera setup)
+- NFC on iOS requires manual CCCD placement (document as limitation)
+- Use markers: @pytest.mark.face, @pytest.mark.nfc for organization
